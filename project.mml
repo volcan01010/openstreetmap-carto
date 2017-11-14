@@ -53,6 +53,7 @@ Stylesheet:
   - aerialways.mss
   - admin.mss
   - addressing.mss
+  - contours.mss
 Layer:
   - id: world
     geometry: polygon
@@ -601,19 +602,19 @@ Layer:
 #        ) AS area_barriers
 #    properties:
 #      minzoom: 16
-#  - id: ferry-routes
-#    geometry: linestring
-#    <<: *extents
-#    Datasource:
-#      <<: *osm2pgsql
-#      table: |-
-#        (SELECT
-#            way
-#          FROM planet_osm_line
-#          WHERE route = 'ferry'
-#        ) AS ferry_routes
-#    properties:
-#      minzoom: 7
+  - id: ferry-routes
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way
+          FROM planet_osm_line
+          WHERE route = 'ferry'
+        ) AS ferry_routes
+    properties:
+      minzoom: 7
 #  - id: turning-circle-casing
 #    geometry: point
 #    <<: *extents
@@ -2325,21 +2326,8 @@ Layer:
 #          ) AS amenity_low_priority_poly
 #    properties:
 #      minzoom: 14
-#  - id: contours
-#    geometry: linestring
-#    <<: *extents
-#    Datasource:
-#      <<: *osm2pgsql
-#      table: |-
-#        (SELECT
-#            way, height
-#          FROM contour
-#          WHERE "natural" = 'cliff' OR man_made = 'embankment'
-#        ) AS cliffs
-#    properties:
-#      minzoom: 13
   - id: contours
-    geometry: linestring
+    geometry: multilinestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2349,4 +2337,4 @@ Layer:
           FROM contour
         ) AS contours
     properties:
-      minzoom: 10
+      minzoom: 7
