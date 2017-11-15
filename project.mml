@@ -207,6 +207,32 @@ Layer:
         ) AS contours200
     properties:
       minzoom: 12
+  - id: contours-text50
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, height
+         FROM contour
+         WHERE height::int % 50 = 0 AND height::int % 200 != 0
+         ) AS contours_text50
+    properties:
+      minzoom: 16
+  - id: contours-text200
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, height
+         FROM contour
+         WHERE height::int % 200 = 0
+        ) AS contours_text200
+    properties:
+      minzoom: 12
 #  - id: landcover-line
 #    geometry: linestring
 #    <<: *extents
@@ -2266,21 +2292,21 @@ Layer:
 #        ) AS water_lines_text
 #    properties:
 #      minzoom: 13
-#  - id: ferry-routes-text
-#    geometry: linestring
-#    <<: *extents
-#    Datasource:
-#      <<: *osm2pgsql
-#      table: |-
-#        (SELECT
-#            way,
-#            name
-#          FROM planet_osm_line
-#          WHERE route = 'ferry'
-#            AND name IS NOT NULL
-#        ) AS ferry_routes_text
-#    properties:
-#      minzoom: 13
+  - id: ferry-routes-text
+    geometry: linestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            name
+          FROM planet_osm_line
+          WHERE route = 'ferry'
+            AND name IS NOT NULL
+        ) AS ferry_routes_text
+    properties:
+      minzoom: 13
 #  - id: admin-text
 #    geometry: linestring
 #    <<: *extents

@@ -1,4 +1,6 @@
 @contour: lighten(brown, 30);
+@contours-text: lighten(brown, 30);
+
 @contours-line-width: 0.5;
 @contours-line-smooth: 0.9;   // A value from 0 to 1
 
@@ -25,4 +27,32 @@
   line-smooth: @contours-line-smooth;
   line-width: @contours-line-width * @contours-major-multiplier;
   line-opacity: 0.5;
+}
+
+#contours-text50 {
+  text-name: "[height]";
+  text-face-name: @book-fonts;
+  text-placement: line;
+  text-fill: @contours-text;
+  [zoom >= 16][zoom < 20] {
+    text-spacing: 1000;
+    text-size: 10;
+  }
+}
+
+#contours-text200 {
+  text-name: "[height]";
+  text-face-name: @book-fonts;
+  text-placement: line;
+  text-fill: @contours-text;
+  text-halo-fill: @standard-halo-fill;
+  text-halo-radius: @standard-halo-radius;
+  [zoom >= 12][zoom < 14] {
+    text-spacing: 6000;
+    text-size: 8;
+  }
+  [zoom >= 14][zoom < 20] {
+    text-spacing: 1000;
+    text-size: 10;
+  }
 }
