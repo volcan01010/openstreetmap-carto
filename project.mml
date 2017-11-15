@@ -91,83 +91,122 @@ Layer:
     properties:
       minzoom: 1
       maxzoom: 3
-#  - id: landcover-low-zoom
-#    geometry: polygon
-#    <<: *extents
-#    Datasource:
-#      <<: *osm2pgsql
-#      table: |-
-#        (SELECT
-#            way, name, way_pixels, religion,
-#            COALESCE(wetland, landuse, "natural") AS feature
-#          FROM (SELECT
-#              way, COALESCE(name, '') AS name, religion,
-#              ('landuse_' || (CASE WHEN landuse IN ('forest', 'military', 'farmland') THEN landuse ELSE NULL END)) AS landuse,
-#              ('natural_' || (CASE WHEN "natural" IN ('wood', 'sand', 'scree', 'shingle', 'bare_rock') THEN "natural" ELSE NULL END)) AS "natural",
-#              ('wetland_' || (CASE WHEN "natural" IN ('wetland', 'mud') THEN (CASE WHEN "natural" IN ('mud') THEN "natural" ELSE tags->'wetland' END) ELSE NULL END)) AS wetland,
-#              way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
-#            FROM planet_osm_polygon
-#            WHERE (landuse IN ('forest', 'military', 'farmland')
-#              OR "natural" IN ('wood', 'wetland', 'mud', 'sand', 'scree', 'shingle', 'bare_rock'))
-#              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
-#              AND building IS NULL
-#            ORDER BY way_area DESC
-#          ) AS features
-#        ) AS landcover_low_zoom
-#    properties:
-#      minzoom: 7
-#      maxzoom: 9
-#  - id: landcover
-#    geometry: polygon
-#    <<: *extents
-#    Datasource:
-#      <<: *osm2pgsql
-#      table: |-
-#        (SELECT
-#            way, name, religion, way_pixels,
-#            COALESCE(aeroway, amenity, wetland, power, landuse, leisure, man_made, military, "natural", tourism, highway, railway) AS feature
-#          FROM (SELECT
-#              way, COALESCE(name, '') AS name,
-#              ('aeroway_' || (CASE WHEN aeroway IN ('apron', 'aerodrome') THEN aeroway ELSE NULL END)) AS aeroway,
-#              ('amenity_' || (CASE WHEN amenity IN ('parking', 'bicycle_parking', 'motorcycle_parking', 'university', 'college', 'school',
-#                                                    'hospital', 'kindergarten', 'grave_yard', 'prison', 'place_of_worship', 'clinic', 'ferry_terminal', 'marketplace')
-#                                                    THEN amenity ELSE NULL END)) AS amenity,
-#              ('landuse_' || (CASE WHEN landuse IN ('quarry', 'vineyard', 'orchard', 'cemetery', 'residential', 'garages', 'meadow', 'grass',
-#                                                    'allotments', 'forest', 'farmyard', 'farmland', 'greenhouse_horticulture',
-#                                                    'recreation_ground', 'village_green', 'retail', 'industrial', 'railway', 'commercial',
-#                                                    'brownfield', 'landfill', 'construction', 'plant_nursery', 'religious') THEN landuse ELSE NULL END)) AS landuse,
-#              ('leisure_' || (CASE WHEN leisure IN ('swimming_pool', 'playground', 'park', 'recreation_ground', 'common', 'garden',
-#                                                    'golf_course', 'miniature_golf', 'picnic_table', 'fitness_centre', 'sports_centre', 'stadium', 'pitch',
-#                                                    'track', 'dog_park', 'fitness_station') THEN leisure ELSE NULL END)) AS leisure,
-#              ('man_made_' || (CASE WHEN man_made IN ('works') THEN man_made ELSE NULL END)) AS man_made,
-#              ('military_' || (CASE WHEN military IN ('danger_area') THEN military ELSE NULL END)) AS military,
-#              ('natural_' || (CASE WHEN "natural" IN ('beach', 'shoal', 'heath', 'grassland', 'wood', 'sand', 'scree', 'shingle', 'bare_rock', 'scrub') THEN "natural" ELSE NULL END)) AS "natural",
-#              ('wetland_' || (CASE WHEN "natural" IN ('wetland', 'marsh', 'mud') THEN (CASE WHEN "natural" IN ('marsh', 'mud') THEN "natural" ELSE tags->'wetland' END) ELSE NULL END)) AS wetland,
-#              ('power_' || (CASE WHEN power IN ('station', 'sub_station', 'substation', 'generator') THEN power ELSE NULL END)) AS power,
-#              ('tourism_' || (CASE WHEN tourism IN ('attraction', 'camp_site', 'caravan_site', 'picnic_site') THEN tourism ELSE NULL END)) AS tourism,
-#              ('highway_' || (CASE WHEN highway IN ('services', 'rest_area') THEN highway ELSE NULL END)) AS highway,
-#              ('railway_' || (CASE WHEN railway = 'station' THEN railway ELSE NULL END)) AS railway,
-#              CASE WHEN religion IN ('christian', 'jewish', 'muslim') THEN religion ELSE 'INT-generic'::text END AS religion,
-#              way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
-#            FROM planet_osm_polygon
-#            WHERE (landuse IS NOT NULL
-#              OR leisure IS NOT NULL
-#              OR aeroway IN ('apron', 'aerodrome')
-#              OR amenity IN ('parking', 'bicycle_parking', 'motorcycle_parking', 'university', 'college', 'school', 'hospital', 'kindergarten',
-#                             'grave_yard', 'place_of_worship', 'prison', 'clinic', 'ferry_terminal', 'marketplace')
-#              OR man_made IN ('works')
-#              OR military IN ('danger_area')
-#              OR "natural" IN ('beach', 'shoal', 'heath', 'mud', 'marsh', 'wetland', 'grassland', 'wood', 'sand', 'scree', 'shingle', 'bare_rock', 'scrub')
-#              OR power IN ('station', 'sub_station', 'substation', 'generator')
-#              OR tourism IN ('attraction', 'camp_site', 'caravan_site', 'picnic_site')
-#              OR highway IN ('services', 'rest_area')
-#              OR railway = 'station')
-#              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
-#            ORDER BY way_area DESC
-#          ) AS landcover
-#        ) AS features
-#    properties:
-#      minzoom: 10
+  - id: landcover-low-zoom
+    geometry: polygon
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, name, way_pixels, religion,
+            COALESCE(wetland, landuse, "natural") AS feature
+          FROM (SELECT
+              way, COALESCE(name, '') AS name, religion,
+              ('landuse_' || (CASE WHEN landuse IN ('forest', 'military', 'farmland') THEN landuse ELSE NULL END)) AS landuse,
+              ('natural_' || (CASE WHEN "natural" IN ('wood', 'sand', 'scree', 'shingle', 'bare_rock') THEN "natural" ELSE NULL END)) AS "natural",
+              ('wetland_' || (CASE WHEN "natural" IN ('wetland', 'mud') THEN (CASE WHEN "natural" IN ('mud') THEN "natural" ELSE tags->'wetland' END) ELSE NULL END)) AS wetland,
+              way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
+            FROM planet_osm_polygon
+            WHERE (landuse IN ('forest', 'military', 'farmland')
+              OR "natural" IN ('wood', 'wetland', 'mud', 'sand', 'scree', 'shingle', 'bare_rock'))
+              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+              AND building IS NULL
+            ORDER BY way_area DESC
+          ) AS features
+        ) AS landcover_low_zoom
+    properties:
+      minzoom: 7
+      maxzoom: 9
+  - id: landcover
+    geometry: polygon
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, name, religion, way_pixels,
+            COALESCE(aeroway, amenity, wetland, power, landuse, leisure, man_made, military, "natural", tourism, highway, railway) AS feature
+          FROM (SELECT
+              way, COALESCE(name, '') AS name,
+              ('aeroway_' || (CASE WHEN aeroway IN ('apron', 'aerodrome') THEN aeroway ELSE NULL END)) AS aeroway,
+              ('amenity_' || (CASE WHEN amenity IN ('parking', 'bicycle_parking', 'motorcycle_parking', 'university', 'college', 'school',
+                                                    'hospital', 'kindergarten', 'grave_yard', 'prison', 'place_of_worship', 'clinic', 'ferry_terminal', 'marketplace')
+                                                    THEN amenity ELSE NULL END)) AS amenity,
+              ('landuse_' || (CASE WHEN landuse IN ('quarry', 'vineyard', 'orchard', 'cemetery', 'residential', 'garages', 'meadow', 'grass',
+                                                    'allotments', 'forest', 'farmyard', 'farmland', 'greenhouse_horticulture',
+                                                    'recreation_ground', 'village_green', 'retail', 'industrial', 'railway', 'commercial',
+                                                    'brownfield', 'landfill', 'construction', 'plant_nursery', 'religious') THEN landuse ELSE NULL END)) AS landuse,
+              ('leisure_' || (CASE WHEN leisure IN ('swimming_pool', 'playground', 'park', 'recreation_ground', 'common', 'garden',
+                                                    'golf_course', 'miniature_golf', 'picnic_table', 'fitness_centre', 'sports_centre', 'stadium', 'pitch',
+                                                    'track', 'dog_park', 'fitness_station') THEN leisure ELSE NULL END)) AS leisure,
+              ('man_made_' || (CASE WHEN man_made IN ('works') THEN man_made ELSE NULL END)) AS man_made,
+              ('military_' || (CASE WHEN military IN ('danger_area') THEN military ELSE NULL END)) AS military,
+              ('natural_' || (CASE WHEN "natural" IN ('beach', 'shoal', 'heath', 'grassland', 'wood', 'sand', 'scree', 'shingle', 'bare_rock', 'scrub') THEN "natural" ELSE NULL END)) AS "natural",
+              ('wetland_' || (CASE WHEN "natural" IN ('wetland', 'marsh', 'mud') THEN (CASE WHEN "natural" IN ('marsh', 'mud') THEN "natural" ELSE tags->'wetland' END) ELSE NULL END)) AS wetland,
+              ('power_' || (CASE WHEN power IN ('station', 'sub_station', 'substation', 'generator') THEN power ELSE NULL END)) AS power,
+              ('tourism_' || (CASE WHEN tourism IN ('attraction', 'camp_site', 'caravan_site', 'picnic_site') THEN tourism ELSE NULL END)) AS tourism,
+              ('highway_' || (CASE WHEN highway IN ('services', 'rest_area') THEN highway ELSE NULL END)) AS highway,
+              ('railway_' || (CASE WHEN railway = 'station' THEN railway ELSE NULL END)) AS railway,
+              CASE WHEN religion IN ('christian', 'jewish', 'muslim') THEN religion ELSE 'INT-generic'::text END AS religion,
+              way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
+            FROM planet_osm_polygon
+            WHERE (landuse IS NOT NULL
+              OR leisure IS NOT NULL
+              OR aeroway IN ('apron', 'aerodrome')
+              OR amenity IN ('parking', 'bicycle_parking', 'motorcycle_parking', 'university', 'college', 'school', 'hospital', 'kindergarten',
+                             'grave_yard', 'place_of_worship', 'prison', 'clinic', 'ferry_terminal', 'marketplace')
+              OR man_made IN ('works')
+              OR military IN ('danger_area')
+              OR "natural" IN ('beach', 'shoal', 'heath', 'mud', 'marsh', 'wetland', 'grassland', 'wood', 'sand', 'scree', 'shingle', 'bare_rock', 'scrub')
+              OR power IN ('station', 'sub_station', 'substation', 'generator')
+              OR tourism IN ('attraction', 'camp_site', 'caravan_site', 'picnic_site')
+              OR highway IN ('services', 'rest_area')
+              OR railway = 'station')
+              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            ORDER BY way_area DESC
+          ) AS landcover
+        ) AS features
+    properties:
+      minzoom: 10
+  - id: contours10
+    geometry: multilinestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way
+         FROM contour
+         WHERE height::int % 50 != 0 AND height::int % 200 != 0
+        ) AS contours10
+    properties:
+      minzoom: 16
+  - id: contours50
+    geometry: multilinestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way
+         FROM contour
+         WHERE height::int % 50 = 0 AND height::int % 200 != 0
+        ) AS contours50
+    properties:
+      minzoom: 14
+  - id: contours200
+    geometry: multilinestring
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way
+         FROM contour
+         WHERE height::int % 200 = 0
+        ) AS contours200
+    properties:
+      minzoom: 12
 #  - id: landcover-line
 #    geometry: linestring
 #    <<: *extents
@@ -2326,15 +2365,3 @@ Layer:
 #          ) AS amenity_low_priority_poly
 #    properties:
 #      minzoom: 14
-  - id: contours
-    geometry: multilinestring
-    <<: *extents
-    Datasource:
-      <<: *osm2pgsql
-      table: |-
-        (SELECT
-            way
-          FROM contour
-        ) AS contours
-    properties:
-      minzoom: 7

@@ -1,30 +1,42 @@
-@contour: #66f;
-@contour-text: @contour;
+@contour: lighten(brown, 30);
+@contours-line-width: 1;
+@contours-line-smooth: 0.9;   // A value from 0 to 1
 
-#contours {
-  [zoom >= 7] {
-    /* background prevents problems with overlapping contours, see #457 */
-    background/line-color: @water-color;
-    background/line-width: 1; /* Needs to be a bit wider than the route itself because of antialiasing */
-    line-color: @contour;
-    line-width: 0.4;
-    line-dasharray: 4,4;
-    [zoom >= 11] {
-      background/line-width: 1;
-      line-width: 0.8;
-      line-dasharray: 6,6;
-    }
-  }
+@contours-z12: 0.20;
+@contours-z13: 0.30;
+@contours-z14: 0.40;
+@contours-z15: 0.50;
+@contours-medium-multiplier: 1.5;
+@contours-major-multiplier: 2.0;
+
+
+#contours10[zoom>=16][zoom<=20] {
+  line-color: green;
+  line-width: @contours-line-width;
+  line-smooth: @contours-line-smooth;
+  line-cap: round;
+  line-opacity: 0.3;
 }
 
-#contours-text {
-  [zoom >= 13] {
-    text-name: "[name]";
-    text-face-name: @book-fonts;
-    text-placement: line;
-    text-fill: @contour-text;
-    text-spacing: 1000;
-    text-size: 10;
-    text-dy: -8;
-  }
+#contours50[zoom>=14][zoom<=20] {
+  line-color: blue;
+  line-width: @contours-line-width * @contours-medium-multiplier;
+  line-smooth: @contours-line-smooth;
+  line-cap: round;
+  [zoom>14][zoom<=16] { line-opacity: 0.2; }
+  [zoom>16] { line-opacity: 0.3; }
+}
+
+#contours200[zoom>=12][zoom<=14] {
+  line-color: @contour;
+  line-smooth: @contours-line-smooth;
+  line-cap: round;
+  [zoom=12] {
+    line-opacity: 0.15;
+    line-width: @contours-line-width * @contours-major-multiplier;
+    line-color: @contour; }
+  [zoom=13] { 
+    line-opacity: 0.15;
+    line-width: @contours-line-width * contours-medium-multiplier;
+    line-color: @contour; }
 }
