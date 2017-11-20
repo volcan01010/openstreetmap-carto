@@ -1,3 +1,8 @@
+> This repository is based on the OpenStreetMap Carto repository.  It uses the
+> same Docker containers and config, but contains tweaks to allow the loading
+> and display of contour data.  For instructions, see
+> [CREATING_CONTOURS.md](CREATING_CONTOURS.md).
+
 # OpenStreetMap Carto
 
 ![screenshot](https://raw.github.com/gravitystorm/openstreetmap-carto/master/preview.png)

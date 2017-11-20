@@ -30,5 +30,5 @@ RUN kosmtik plugins --install kosmtik-overpass-layer \
 RUN mkdir -p /openstreetmap-carto
 WORKDIR /openstreetmap-carto
 
-USER 11478
+USER 1000
 CMD sh scripts/docker-startup.sh kosmtik
