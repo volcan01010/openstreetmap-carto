@@ -156,6 +156,23 @@ docker-compose up -d kosmtik
 ```
 
 
+## Exporting as mbtiles
+
+A script is used to export the data in [mbtiles](http://wiki.openstreetmap.org/wiki/MBTiles) format.  The exported region and zoom levels can be configured via environment variables in the _docker-compose.yml_ file.
+
+With the kosmtik container running (see above), run the following command:
+
+```
+docker exec --user root openstreetmap-carto_kosmtik_1
+/openstreetmap-carto/scripts/export_mbtiles.sh
+```
+
+Note that the MBTILES_FILE location refers to within the docker container,
+however the /openstreetmap-carto folder is accessible from outside.  Changes
+made to the docker-compose.yml file will only be reflected in the container
+following a container restart.
+
+
 ## Troubleshooting
 
 ### No tiles for the world
