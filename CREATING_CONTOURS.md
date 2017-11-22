@@ -20,7 +20,8 @@ Requirements:
 
 * A Linux system running Docker
 * GDAL/OGR libraries for manipulating GIS files
-* Python `elevation` tool for downloading DEM data
+* Python `elevation` tool for downloading DEM data (requires _fiona_ library to
+  get extents from reference files).
 * `osmctools` for manipulating OSM files
 
 Test that you can run Docker:
@@ -39,7 +40,7 @@ Other dependencies can be installed on Debian/Linux based systems with:
 
 ```
 sudo apt install gdal-bin python-pip osmctools
-sudo pip install elevation
+sudo pip install elevation fiona
 ```
 
 ## Download OSM data for region of interest
@@ -112,6 +113,7 @@ projection.
 
 ```
 # Download data
+cd svg
 eio clip -o svg_srtm_30m_raw.tif --reference svg_land_mask_4326.geojson
 
 # Remove bad data from sea
@@ -134,7 +136,7 @@ The data are loaded via shp2pgsql by running the following commands within the
 shapefile directory:
 
 ```
-cd svg/svg_srtm_30m_contours_10m
+cd svg_srtm_30m_contours_10m
 shp2pgsql -p -I -g way -s 4326:900913 contour.shp contour | psql -h localhost -p 5432 -U postgres -d gis
 shp2pgsql -a -g way -s 4326:900913 contour.shp contour | psql -h localhost -p 5432 -U postgres -d gis
 ```
@@ -194,3 +196,9 @@ containers.
 docker-compose build
 docker-compose up kosmtik
 ```
+
+## eio "Reference datasource could not be opened"
+
+This is due to a bug in the spatial.py file of eio version 1.0.1.  If you have
+ this (`eio --version` to check), then the second SUPPORT_RASTER_DATA should be
+replaced with SUPPORT_VECTOR_DATA.
