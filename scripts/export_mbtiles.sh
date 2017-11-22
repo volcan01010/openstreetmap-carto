@@ -28,8 +28,8 @@ rm -f "${OUTFILE}"
 node index.js export /openstreetmap-carto/project.mml \
        --format=mbtiles \
        --output="${OUTFILE}" \
-       --minZoom=${MIN_ZOOM} --maxZoom=${MAX_ZOOM} \
-       --bbox=${X_MIN},${Y_MIN},${X_MAX},${Y_MAX}
+       --minZoom=${MIN_ZOOM} --maxZoom=${MAX_ZOOM}
+       #--bbox=${X_MIN},${Y_MIN},${X_MAX},${Y_MAX}
 
 # Make file writeable (deletable) by any users
 chmod a+w "${OUTFILE}"

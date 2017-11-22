@@ -15,10 +15,10 @@ services:
       - PGHOST=db
       - PGUSER=postgres
       - MBTILES_FILE=/openstreetmap-carto/data/svg.mbtiles
-      - MBTILES_X_MIN=-61.705
-      - MBTILES_Y_MIN=12.568
-      - MBTILES_X_MAX=-60.712
-      - MBTILES_Y_MAX=13.626
+        #- MBTILES_X_MIN=-61.705
+        #- MBTILES_Y_MIN=12.568
+        #- MBTILES_X_MAX=-60.712
+        #- MBTILES_Y_MAX=13.626
       - MBTILES_MIN_ZOOM=11
       - MBTILES_MAX_ZOOM=18
   db:
