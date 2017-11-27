@@ -175,6 +175,14 @@ made to the docker-compose.yml file will only be reflected in the container
 following a container restart.
 
 
+## Viewing the exported tiles
+
+The `docker-compose.yml` file also contains instructions to set up an nginx
+webserver serving a Leaflet map allowing the data to be browsed.  Assuming that
+the mbtiles file is located at data/svg.mbtiles, the webmap can be accessed at
+[http://localhost](http://localhost).
+
+
 ## Troubleshooting
 
 ### No tiles for the world
