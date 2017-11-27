@@ -10,6 +10,10 @@ localconfig.js
 .kosmtik-config.yml
 .env
 
+# Data files from contour creation
+svg/*.tif
+svg/*contour*
+
 # Generated at runtime by Python.
 *.pyc
 **/*.pyc

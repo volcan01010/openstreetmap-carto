@@ -9,11 +9,19 @@ services:
       - .:/openstreetmap-carto
     depends_on:
       - db
+      - nginx
     ports:
       - "6789:6789"
     environment:
       - PGHOST=db
       - PGUSER=postgres
+      - MBTILES_FILE=/openstreetmap-carto/data/svg.mbtiles
+      - MBTILES_X_MIN=-61.705
+      - MBTILES_Y_MIN=12.568
+      - MBTILES_X_MAX=-60.712
+      - MBTILES_Y_MAX=13.626
+      - MBTILES_MIN_ZOOM=12
+      - MBTILES_MAX_ZOOM=16
   db:
     image: db:v1
     build:
@@ -22,6 +30,10 @@ services:
     environment:
       - PG_WORK_MEM
       - PG_MAINTENANCE_WORK_MEM
+    volumes:
+      - osm-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   import:
     image: import:v1
     build:
@@ -39,3 +51,13 @@ services:
       - OSM2PGSQL_CACHE
       - OSM2PGSQL_NUMPROC
       - OSM2PGSQL_DATAFILE
+  nginx:
+    image: nginx
+    volumes:
+      - ./svg/svg_mbtiles.html:/usr/share/nginx/html/index.html:ro
+      - ./data/svg.mbtiles:/usr/share/nginx/html/svg.mbtiles:ro
+    ports:
+      - "80:80"
+volumes:
+  osm-pgdata:
+    external: true

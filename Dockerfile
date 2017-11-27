@@ -24,6 +24,7 @@ RUN kosmtik plugins --install kosmtik-overpass-layer \
                     --install kosmtik-osm-data-overlay \
                     --install kosmtik-mapnik-reference \
                     --install kosmtik-geojson-overlay \
+                    --install kosmtik-mbtiles-export \
     && cp /root/.config/kosmtik.yml /tmp/.kosmtik-config.yml
 
 # Closing section
