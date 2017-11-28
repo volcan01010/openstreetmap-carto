@@ -17,10 +17,11 @@ They were created for use in a project by the British Geological Survey.
 ## Architecture
 
 The image below shows how the data files, scripts and Docker containers
-interact.  Generating contours is simple, in that it can be done with a few
-commands, or very hard, given the range of technologies required.
+interact.  Generating contours is either very simple, in that it can be done
+with a few commands, or very hard, given the range of technologies required.
 
-![Architecture diagram](openstreetmap-carto-architecture.svg)
+![Architecture diagram](openstreetmap-carto-architecture.png)
+
 
 ## Before you start
 
