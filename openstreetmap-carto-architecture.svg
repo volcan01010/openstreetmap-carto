@@ -16,7 +16,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="openstreetmap-carto-architecture.svg">
+   sodipodi:docname="openstreetmap-carto-architecture.svg"
+   inkscape:export-filename="/home/jostev/openstreetmap-carto/openstreetmap-carto-architecture.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2">
     <marker
@@ -270,7 +273,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="400.29984"
+     inkscape:cx="-148.16245"
      inkscape:cy="874.20415"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -429,53 +432,6 @@
            x="-53.715908"
            id="tspan4015-4"
            sodipodi:role="line">contours.css</tspan></text>
-    </g>
-    <g
-       id="g9409"
-       transform="translate(-46.869048,-6.0476191)">
-      <g
-         id="g3862-6"
-         transform="translate(-71.763498,18.756919)">
-        <rect
-           style="fill:#e3dbde;stroke-width:0.14320992"
-           id="rect3826-2"
-           width="4.7247024"
-           height="7.3705363"
-           x="10.394345"
-           y="10.116072" />
-        <path
-           style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 11.11565,11.297246 h 2.834822 v 0.188989 0"
-           id="path3828-61"
-           inkscape:connector-curvature="0" />
-        <path
-           style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 11.11565,13.60919 h 2.834822 v 0.188989 0"
-           id="path3828-3-8"
-           inkscape:connector-curvature="0" />
-        <path
-           style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 11.11565,12.453211 h 2.834822 v 0.188989 0"
-           id="path3828-6-7"
-           inkscape:connector-curvature="0" />
-        <path
-           style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 11.11565,14.765177 h 2.305655"
-           id="path3828-0-9"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="cc" />
-      </g>
-      <text
-         id="text4017-54"
-         y="33.726147"
-         x="-53.715908"
-         style="font-style:normal;font-weight:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-         xml:space="preserve"><tspan
-           style="stroke-width:0.26458332"
-           y="33.726147"
-           x="-53.715908"
-           id="tspan4015-7"
-           sodipodi:role="line">docker-compose.yml</tspan></text>
     </g>
     <g
        id="g9459"
