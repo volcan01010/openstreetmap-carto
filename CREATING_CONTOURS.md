@@ -24,24 +24,33 @@ Requirements:
   get extents from reference files).
 * `osmctools` for manipulating OSM files
 
-Test that you can run Docker:
-
+1. Test that you can run Docker:
 ```
 docker run hello-world
 ```
 
-Create a Docker volume to persistently store PostGIS data:
+2. Other dependencies can be installed on Debian/Linux based systems with:
+```
+sudo apt install gdal-bin python-pip osmctools postgis postgresql-client-common
+sudo pip install elevation fiona
+```
 
+3. Create a Docker volume to persistently store PostGIS data:
 ```
 docker volume create --name=osm-pgdata -d local
 ```
 
-Other dependencies can be installed on Debian/Linux based systems with:
+4. Build and start the docker containers, check you can connect to database
+```
+docker-compose up -d kosmtik
+psql -h localhost -p 5432 -U postgres -c "SELECT 1;"
+```
 
+5. Close down again
 ```
-sudo apt install gdal-bin python-pip osmctools
-sudo pip install elevation fiona
+docker-compose down
 ```
+
 
 ## Download OSM data for region of interest
 
