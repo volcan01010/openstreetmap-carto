@@ -2,16 +2,16 @@
 
 These instructions explain how to prepare contour data for rendering in Open Street
 Map.  As well as following these, refer also to the DOCKER.md instructions 
-first.  The tasks are related.
+first.  The tasks are related.  There is troubleshooting info at the bottom of
+this file.
 
 Information on adding contours is based on the [Open Street
 Map Wiki Contours page](http://wiki.openstreetmap.org/wiki/Contours).  The
 styling information has already been incorporated into the _project.mml_ and
 _contours.mss_ files.
 
-The examples and data here are for the St Vincent
-and the Grenadines region.  They are for use in a project by the British Geological
-Survey.
+The examples and data here are for the St Vincent and the Grenadines region.  
+They were created for use in a project by the British Geological Survey.
 
 
 ## Before you start
@@ -43,7 +43,7 @@ docker volume create --name=osm-pgdata -d local
 4. Build and start the docker containers, check you can connect to database
 ```
 docker-compose up -d kosmtik
-psql -h localhost -p 5432 -U postgres -c "SELECT 1;"
+psql -h localhost -p 5432 -U postgres -c "SELECT 'success' as result;"
 ```
 
 5. Close down again
@@ -134,11 +134,11 @@ gdal_contour -i 10 -a height svg_srtm_30m.tif svg_srtm_30m_contours_10m
 
 ## Load contour data to database
 
-Ensure that the database is running and that you can connect to it.  You can
+Ensure that postgis is running and that you can connect to it.  You can
 test connection with:
 
 ```
-psql -h <hostname> -U postgres -d gis -c 'SELECT 1;'
+psql -h localhost -U postgres -d gis -c "SELECT true AS gis_db_exists;"
 ```
 
 The data are loaded via shp2pgsql by running the following commands within the
@@ -166,6 +166,9 @@ command:
 docker-compose up -d kosmtik
 ```
 
+You should now be able to access Kosmtik through your browser at
+[http://localhost:6789](http://localhost:6789).
+
 
 ## Exporting as mbtiles
 
@@ -182,6 +185,8 @@ Note that the MBTILES_FILE location refers to within the docker container,
 however the /openstreetmap-carto folder is accessible from outside.  Changes
 made to the docker-compose.yml file will only be reflected in the container
 following a container restart.
+
+Error messages about missing fonts are expected.
 
 The export can take a long time (hours).  You can view progress by inspecting
 the number of tiles within the mbtiles file with the following:
@@ -223,12 +228,27 @@ docker-compose build
 docker-compose up kosmtik
 ```
 
+Sometimes the `data` folder is owned by the root user.  You can check with:
+
+```
+ls -l
+```
+
+In this case, change ownership to yourself e.g.
+
+```
+sudo chown -R 1000:1000 data
+``` 
+
 ## eio "Reference datasource could not be opened"
 
 This is due to a bug in the spatial.py file of eio version 1.0.1.  If you have
- this (`eio --version` to check), then the second SUPPORT_RASTER_DATA should be
-replaced with SUPPORT_VECTOR_DATA.  This error message may also show if the
-`fiona` python library is not present.
+ this (`eio --version` to check), then it is necessary to edit the file
+manually.  The exact location of the file is buried in the stack trace of the
+error message.  Change the second instance of SUPPORT_RASTER_DATA (line 41)
+to SUPPORT_VECTOR_DATA.
+
+This error message may also show if the `fiona` python library is not present.
 
 
 ## Problems with bounds in exported mbtiles file

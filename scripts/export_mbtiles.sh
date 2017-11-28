@@ -23,7 +23,7 @@ npm list -g kosmtik
 # Switch directory and extract files
 cd /usr/lib/node_modules/kosmtik
 
-rm -f "${OUTFILE}"
+rm -rf "${OUTFILE}"
 
 node index.js export /openstreetmap-carto/project.mml \
        --format=mbtiles \
