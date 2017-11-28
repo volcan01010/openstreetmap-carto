@@ -165,7 +165,7 @@ A script is used to export the data in [mbtiles](http://wiki.openstreetmap.org/w
 With the kosmtik container running (see above), run the following command:
 
 ```
-docker exec --user root openstreetmap-carto_kosmtik_1
+docker exec --user root openstreetmapcarto_kosmtik_1 \
 /openstreetmap-carto/scripts/export_mbtiles.sh
 ```
 
@@ -173,6 +173,15 @@ Note that the MBTILES_FILE location refers to within the docker container,
 however the /openstreetmap-carto folder is accessible from outside.  Changes
 made to the docker-compose.yml file will only be reflected in the container
 following a container restart.
+
+The export can take a long time (hours).  You can view progress by inspecting
+the number of tiles within the mbtiles file with the following:
+
+```
+watch 'sqlite3 data/svg.mbtiles \
+ "SELECT zoom_level, COUNT(1) \
+  FROM tiles GROUP BY zoom_level;"'
+```
 
 
 ## Viewing the exported tiles
@@ -209,4 +218,13 @@ docker-compose up kosmtik
 
 This is due to a bug in the spatial.py file of eio version 1.0.1.  If you have
  this (`eio --version` to check), then the second SUPPORT_RASTER_DATA should be
-replaced with SUPPORT_VECTOR_DATA.
+replaced with SUPPORT_VECTOR_DATA.  This error message may also show if the
+`fiona` python library is not present.
+
+
+## Problems with bounds in exported mbtiles file
+
+This may be a result of this
+[bug](https://github.com/kosmtik/kosmtik-mbtiles-export/commit/4da99650f690e3e35f05bd97679ae992c18a3cb1),
+which has been fixed in Github, but not in the version of code installed in the
+container.
