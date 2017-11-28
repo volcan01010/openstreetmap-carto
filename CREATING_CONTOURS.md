@@ -1,4 +1,4 @@
-# Preparing data for Open Street Map rendering.
+# Creating Open Street Map with contours for offline use
 
 These instructions explain how to prepare contour data for rendering in Open Street
 Map.  As well as following these, refer also to the DOCKER.md instructions 
@@ -9,9 +9,9 @@ Map Wiki Contours page](http://wiki.openstreetmap.org/wiki/Contours).  The
 styling information has already been incorporated into the _project.mml_ and
 _contours.mss_ files.
 
-The examples and data here are based on generating contours for the St Vincent
-and the Grenadines region.  This region is used by the Overseas Development
-Agency multihazard app.
+The examples and data here are for the St Vincent
+and the Grenadines region.  They are for use in a project by the British Geological
+Survey.
 
 
 ## Before you start
@@ -30,7 +30,7 @@ Test that you can run Docker:
 docker run hello-world
 ```
 
-Create a Docker volume to persitently store PostGIS data:
+Create a Docker volume to persistently store PostGIS data:
 
 ```
 docker volume create --name=osm-pgdata -d local
